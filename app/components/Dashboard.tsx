@@ -1,6 +1,5 @@
-"use client";
-
 import React, { useState, useEffect } from 'react';
+import useUserData from './AllUsers';
 import Image from 'next/image';
 import Sidebar from './Sidebar';
 import Navbar from './Navbar';
@@ -8,22 +7,11 @@ import Navbar from './Navbar';
 const Dashboard = () => {
     const [totalUsers, setTotalUsers] = useState(0);
 
+    const usersData = useUserData();
+
     useEffect(() => {
-        fetchUsersData();
-    }, []);
-    
-    const fetchUsersData = async () => {
-        try {
-            const response = await fetch('http://52.65.15.61:3000/user/getAllUser');
-            if (!response.ok) {
-                throw new Error('Failed to fetch users data');
-            }
-            const usersData = await response.json();
-            setTotalUsers(usersData.length); // Update totalUsers count
-        } catch (error) {
-            console.error('Error fetching users data:', error);
-        }
-    };
+        setTotalUsers(usersData.length);
+    }, [usersData]);
 
     return (
         <div style={{ display: 'flex', height: '100vh', backgroundColor: '#F5F6FA' }}>

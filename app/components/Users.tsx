@@ -1,20 +1,13 @@
-"use client";
-
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import useUserData from './AllUsers';
 import Sidebar from './Sidebar';
 import Navbar from './Navbar';
 
 type Tab = 'allUsers' | 'bannedUsers'; 
 
-type UserEntity = {
-    userId: number;
-    name: string;
-    email: string;
-  };
-
 const Users: React.FC = () => {
     const [activeTab, setActiveTab] = useState<'allUsers' | 'bannedUsers'>('allUsers');
-    const [users, setUsers] = useState<UserEntity[]>([]);
+
     const allUsersItemsPerPage = 5;
     const [allUsersCurrentPage, setAllUsersCurrentPage] = useState(1);
     const [isBanModalVisible, setBanModalVisible] = useState(false);
@@ -47,22 +40,7 @@ const Users: React.FC = () => {
         setBDelModalVisible(!isBDelModalVisible);
     };
 
-    useEffect(() => {
-        fetchUsersData();
-    }, [allUsersCurrentPage]);
-    
-    const fetchUsersData = async () => {
-        try {
-            const response = await fetch('http://52.65.15.61:3000/user/getAllUser');
-                if (!response.ok) {
-                throw new Error('Failed to fetch users data');
-            }
-            const usersData = await response.json();
-            setUsers(usersData);
-        } catch (error) {
-            console.error('Error fetching users data:', error);
-        }
-    };
+    const users = useUserData();
     
     const getAllUsersForCurrentPage = () => {
         const startIndex1 = (allUsersCurrentPage - 1) * allUsersItemsPerPage;
