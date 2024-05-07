@@ -1,14 +1,14 @@
+'use client'
+
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useUserData, useBannedUserData, useDeleteUser, useBanUser, useUnbanUser } from './calls/UsersFunctions';
-import Sidebar from './navs/Sidebar';
-import Navbar from './navs/Navbar';
+import { useUserData, useBannedUserData, useDeleteUser, useBanUser, useUnbanUser } from '../calls/UsersFunctions';
+import Sidebar from '../navs/Sidebar';
+import Navbar from '../navs/Navbar';
 
 type Tab = 'allUsers' | 'bannedUsers'; 
 
 const Users: React.FC = () => {
     const [activeTab, setActiveTab] = useState<'allUsers' | 'bannedUsers'>('allUsers');
-    const navigate = useNavigate();
     const allUsersItemsPerPage = 5;
     const bannedUsersItemsPerPage = 5;
     const [allUsersCurrentPage, setAllUsersCurrentPage] = useState(1);
@@ -24,7 +24,6 @@ const Users: React.FC = () => {
     const [selectedMonths, setSelectedMonths] = useState<number | null>(null);
     const [selectedDays, setSelectedDays] = useState<number | null>(null);
     const [selectedUnbUserId, setSelectedUnbUserId] = useState<string>("");
-    const [banDate, setBanDate] = useState<string>("");
     const { deleteUser } = useDeleteUser(selectedDelUserId);
     const { banUser } = useBanUser(selectedBanUserId, selectedMonths ?? 0, selectedDays ?? 0);
     const { unbanUser } = useUnbanUser(selectedUnbUserId);
@@ -43,9 +42,8 @@ const Users: React.FC = () => {
         setBanModalVisible(!isBanModalVisible);
     };
 
-    const toggleUnbModal = (userId: string, createdAt: string) => {
+    const toggleUnbModal = (userId: string) => {
         setSelectedUnbUserId(userId);
-        setBanDate(createdAt);
         setUnbModalVisible(!isUnbModalVisible);
     };
     
@@ -65,7 +63,7 @@ const Users: React.FC = () => {
         try {
             await deleteUser();
             setDelModalVisible(false);
-            navigate('/dashboard');
+            window.location.reload();
         } catch (error) {
             console.error('Error deleting user:', error);
         }
@@ -73,9 +71,11 @@ const Users: React.FC = () => {
 
     const handleConfirmBanUser = async () => {
         try {
+            console.log("Selected months:", selectedMonths);
+            console.log("Selected days:", selectedDays);
             await banUser();
             setBanModalVisible(false);
-            navigate('/dashboard');
+            window.location.reload();
         } catch (error) {
             console.error('Error banning user:', error);
         }
@@ -85,11 +85,11 @@ const Users: React.FC = () => {
         try {
             await unbanUser();
             setUnbModalVisible(false);
-            navigate('/dashboard');
+            window.location.reload();
         } catch (error) {
             console.error('Error unbanning user:', error);
         }
-    };
+    }; 
     
     return (
         <div style={{ display: 'flex', height: '100vh', backgroundColor: '#F5F6FA' }}>
@@ -183,7 +183,14 @@ const Users: React.FC = () => {
                                             id="monthsInput"
                                             type="number"
                                             value={selectedMonths?.toString() ?? ""}
-                                            onChange={(event) => setSelectedMonths(event.target.value !== "" ? parseInt(event.target.value) : null)}
+                                            onChange={(event) => {
+                                                let value = parseInt(event.target.value);
+                                                if (isNaN(value)) {
+                                                    setSelectedMonths(null);
+                                                } else {
+                                                    setSelectedMonths(Math.max(0, value)); // Ensure it doesn't go below 0
+                                                }
+                                            }}
                                             className="border border-gray-300 rounded px-2 py-1 focus:outline-none"
                                             style={{ width: '60px' }}
                                         />
@@ -198,7 +205,14 @@ const Users: React.FC = () => {
                                             id="daysInput"
                                             type="number"
                                             value={selectedDays?.toString() ?? ""}
-                                            onChange={(event) => setSelectedDays(event.target.value !== "" ? parseInt(event.target.value) : null)}
+                                            onChange={(event) => {
+                                                let value = parseInt(event.target.value);
+                                                if (isNaN(value)) {
+                                                    setSelectedDays(null);
+                                                } else {
+                                                    setSelectedDays(Math.max(0, value)); // Ensure it doesn't go below 0
+                                                }
+                                            }}
                                             className="border border-gray-300 rounded px-2 py-1 focus:outline-none"
                                             style={{ width: '60px' }}
                                         />
@@ -257,7 +271,7 @@ const Users: React.FC = () => {
                                 Unban User
                             </div>
                             <div className="font-semibold font-poppins text-md text-center text-[#344054] p-6">
-                                Banned since {banDate ? new Date(banDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : ''}.
+                                Are you sure you want to unban the user?
                             </div>
                             <div className="flex flex-row mt-2 mb-2">
                                 <button type="button" 
@@ -334,7 +348,7 @@ const Users: React.FC = () => {
                                         Email
                                     </th>
                                     <th scope="col" 
-                                        className="px-3 py-3 text-center">
+                                        className="px-5 py-3 text-left">
                                         Hours Played
                                     </th>
                                     <th scope="col" 
@@ -363,7 +377,7 @@ const Users: React.FC = () => {
                                                 {user.email}
                                             </td>
                                             <td scope="row" 
-                                                className="px-3 py-3 text-center">
+                                                className="px-5 py-3 text-left">
                                                 {/* {user.hoursPlayed} */}
                                             </td>
                                             <td scope="row" 
@@ -429,8 +443,8 @@ const Users: React.FC = () => {
                                         Email
                                     </th>
                                     <th scope="col" 
-                                        className="px-3 py-3 text-center">
-                                        Hours Played
+                                        className="px-5 py-3 text-left">
+                                        Banned Until
                                     </th>
                                     <th scope="col" 
                                         className="px-3 py-3 text-center">
@@ -458,13 +472,18 @@ const Users: React.FC = () => {
                                                 {bannedUser.email}
                                             </td>
                                             <td scope="row" 
-                                                className="px-3 py-3 text-center">
-                                                {/* {bannedUser.hoursPlayed} */}
+                                                className="px-5 py-3 text-left">
+                                                {new Date(bannedUser.auth.banned_until).toLocaleString('en-US', { month: 'numeric', 
+                                                                                                                  day: 'numeric', 
+                                                                                                                  year: 'numeric', 
+                                                                                                                  hour: 'numeric', 
+                                                                                                                  minute: 'numeric', 
+                                                                                                                  hour12: true })}
                                             </td>
                                             <td scope="row" 
                                                 className="py-2 flex items-center justify-center">
                                                 <button
-                                                    onClick={() => toggleUnbModal(bannedUser.userId, bannedUser.createdAt)}
+                                                    onClick={() => toggleUnbModal(bannedUser.userId)}
                                                     style={{ width: '80px' }}
                                                     className="focus:outline-none text-xs text-[#ffffff] bg-[#344054] hover:bg-[#202732] hover:text-[#E2E2E2] font-medium font-poppins rounded-lg px-5 py-2 mb-1 mt-1 mr-3 ml-2"
                                                 >

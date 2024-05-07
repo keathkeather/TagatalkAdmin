@@ -1,8 +1,10 @@
+'use client'
+
 import React, { useState, useEffect } from 'react';
-import { useUserData } from './calls/UsersFunctions';
+import { useUserData } from '../calls/UsersFunctions';
 import Image from 'next/image';
-import Sidebar from './navs/Sidebar';
-import Navbar from './navs/Navbar';
+import Sidebar from '../navs/Sidebar';
+import Navbar from '../navs/Navbar';
 
 const Dashboard = () => {
     const [totalUsers, setTotalUsers] = useState(0);

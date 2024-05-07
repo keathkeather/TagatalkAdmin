@@ -4,12 +4,16 @@ import { useUserData } from './UsersFunctions';
 type ReportsEntity = {
     id: string;
     userId: string;
-    userName?: string;
-    userEmail?: string;
     reportTitle: string;
     reportDescription: string;
     createdAt: string;
+    user: user;
 };
+
+type user = {
+    name: string;
+    email: string;
+}
 
 const useReportsData = () => {
     const [reports, setReports] = useState<ReportsEntity[]>([]);
@@ -23,18 +27,7 @@ const useReportsData = () => {
                     throw new Error('Failed to fetch reports data');
                 }
                 const reportsData = await response.json();
-
-                // Update reportsData with user email
-                const updatedReportsData = reportsData.map((item: ReportsEntity) => {
-                    const user = users.find(user => user.userId === item.userId);
-                    return {
-                        ...item,
-                        userEmail: user ? user.email : '',
-                        userName: user ? user.name : ''
-                    };
-                });
-
-                setReports(updatedReportsData);
+                setReports(reportsData);
             } catch (error) {
                 console.error('Error fetching reports data:', error);
             }
