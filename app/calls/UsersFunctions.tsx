@@ -11,16 +11,16 @@ const useUserData = () => {
 
     useEffect(() => {
         const fetchUsersData = async () => {
-        try {
-            const response = await fetch('http://52.65.15.61:3000/admin/users');
-            if (!response.ok) {
-            throw new Error('Failed to fetch users data');
+            try {
+                const response = await fetch('http://52.65.15.61:3000/admin/users');
+                if (!response.ok) {
+                throw new Error('Failed to fetch users data');
+                }
+                const usersData = await response.json();
+                setUsers(usersData);
+            } catch (error) {
+                console.error('Error fetching users data:', error);
             }
-            const usersData = await response.json();
-            setUsers(usersData);
-        } catch (error) {
-            console.error('Error fetching users data:', error);
-        }
         };
 
         fetchUsersData();
@@ -33,24 +33,28 @@ type BannedUserEntity = {
     userId: string;
     name: string;
     email: string;
-    createdAt: string;
+    auth: auth;
 };
+
+type auth = {
+    banned_until: string;
+}
 
 const useBannedUserData = () => {
     const [bannedUsers, setBannedUsers] = useState<BannedUserEntity[]>([]);
 
     useEffect(() => {
         const fetchBannedUsersData = async () => {
-        try {
-            const response = await fetch('http://52.65.15.61:3000/admin/bannedUsers');
-            if (!response.ok) {
-            throw new Error('Failed to fetch banned users data');
+            try {
+                const response = await fetch('http://52.65.15.61:3000/admin/bannedUsers');
+                if (!response.ok) {
+                throw new Error('Failed to fetch banned users data');
+                }
+                const bannedUsersData = await response.json();
+                setBannedUsers(bannedUsersData);
+            } catch (error) {
+                console.error('Error fetching banned users data:', error);
             }
-            const bannedUsersData = await response.json();
-            setBannedUsers(bannedUsersData);
-        } catch (error) {
-            console.error('Error fetching banned users data:', error);
-        }
         };
 
         fetchBannedUsersData();
