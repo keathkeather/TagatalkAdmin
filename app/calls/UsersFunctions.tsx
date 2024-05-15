@@ -12,7 +12,7 @@ const useUserData = () => {
     useEffect(() => {
         const fetchUsersData = async () => {
             try {
-                const response = await fetch('http://52.65.15.61:3000/admin/users');
+                const response = await fetch('http://13.236.105.57:3000/admin/users');
                 if (!response.ok) {
                 throw new Error('Failed to fetch users data');
                 }
@@ -46,7 +46,7 @@ const useBannedUserData = () => {
     useEffect(() => {
         const fetchBannedUsersData = async () => {
             try {
-                const response = await fetch('http://52.65.15.61:3000/admin/bannedUsers');
+                const response = await fetch('http://13.236.105.57:3000/admin/bannedUsers');
                 if (!response.ok) {
                 throw new Error('Failed to fetch banned users data');
                 }
@@ -70,7 +70,7 @@ const useDeleteUser = (userId: string) => {
     const deleteUser = async () => {
         setIsDeleting(true);
         try {
-            const response = await fetch(`http://52.65.15.61:3000/admin/deleteUser/${userId}`, {
+            const response = await fetch(`http://13.236.105.57:3000/admin/deleteUser/${userId}`, {
                 method: 'PUT',
             });
             if (!response.ok) {
@@ -93,7 +93,7 @@ const useBanUser = (userId: string, monthsVal: number, daysVal: number) => {
     const banUser = async () => {
         setIsBanning(true);
         try {
-            const response = await fetch(`http://52.65.15.61:3000/admin/banUser/${userId}`, {
+            const response = await fetch(`http://13.236.105.57:3000/admin/banUser/${userId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -123,7 +123,7 @@ const useUnbanUser = (userId: string) => {
     const unbanUser = async () => {
         setIsUnbanning(true);
         try {
-            const response = await fetch(`http://52.65.15.61:3000/admin/unbanUser/${userId}`, {
+            const response = await fetch(`http://13.236.105.57:3000/admin/unbanUser/${userId}`, {
                 method: 'PUT',
             });
             if (!response.ok) {

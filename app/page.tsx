@@ -14,9 +14,14 @@ const Login = () => {
         setPassword('');
     };
 
-    const handleLogin = () => {
+    const handleAdminLogin = () => {
         // add here logic for authentication
         router.push('/dashboard');
+    };
+
+    const handleContentEditorLogin = () => {
+        // add here logic for authentication
+        router.push('/skills');
     };
 
     return (
@@ -34,7 +39,7 @@ const Login = () => {
                 <h2 className="font-semibold text-white my-4 font-poppins" 
                     style={{ fontSize: '25px', 
                              marginTop: '-40px' }}>
-                    Admin Access Module
+                    Access Module
                 </h2>
                 {/* Form */}
                 <div className="bg-white rounded-3xl p-16 shadow-lg" 
@@ -90,15 +95,21 @@ const Login = () => {
                         <div className="flex justify-between mt-8">
                             <button type="button" 
                                     onClick={handleClearEntries} 
-                                    className="text-sm font-semibold text-[#344054] bg-[#ffffff] hover:bg-[#E6E6E6] hover:text-[#1E2530] px-4 py-2 rounded-3xl border border-gray-300 mr-2 font-poppins" 
+                                    className="text-sm font-semibold text-[#344054] bg-[#ffffff] hover:bg-[#E6E6E6] hover:text-[#1E2530] px-4 py-2 rounded-3xl border border-gray-300 font-poppins" 
                                     style={{ width: '150px' }}>
                                 Clear Entries
+                            </button>
+                            <button type="button" 
+                                    onClick={handleContentEditorLogin} 
+                                    className="text-sm font-semibold text-[#ffffff] bg-[#FD9F10] hover:bg-[#D8890F] hover:text-[#E2E2E2] px-4 py-2 rounded-3xl font-poppins" 
+                                    style={{ width: '150px' }}>
+                                Editor Login
                             </button>     
                             <button type="button" 
-                                    onClick={handleLogin} 
+                                    onClick={handleAdminLogin} 
                                     className="text-sm font-semibold text-[#ffffff] bg-[#212121] hover:bg-[#000000] hover:text-[#E2E2E2] px-4 py-2 rounded-3xl font-poppins" 
                                     style={{ width: '150px' }}>
-                                Login
+                                Admin Login
                             </button>
                         </div>
                     </form>
