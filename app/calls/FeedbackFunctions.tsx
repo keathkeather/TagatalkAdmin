@@ -22,7 +22,7 @@ const useFeedbackData = () => {
     useEffect(() => {
         const fetchFeedbackData = async () => {
             try {
-                const response = await fetch('http://52.65.15.61:3000/admin/feedbacks');
+                const response = await fetch('http://13.236.105.57:3000/admin/feedbacks');
                 if (!response.ok) {
                     throw new Error('Failed to fetch feedback data');
                 }
@@ -46,7 +46,7 @@ const useDeleteFeedback = (feedbackId: string) => {
     const deleteFeedback = async () => {
         setIsDeleting(true);
         try {
-            const response = await fetch(`http://52.65.15.61:3000/admin/deleteFeedback/${feedbackId}`, {
+            const response = await fetch(`http://13.236.105.57:3000/admin/deleteFeedback/${feedbackId}`, {
                 method: 'PUT',
             });
             if (!response.ok) {

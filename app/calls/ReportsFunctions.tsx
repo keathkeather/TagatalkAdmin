@@ -22,7 +22,7 @@ const useReportsData = () => {
     useEffect(() => {
         const fetchReportsData = async () => {
             try {
-                const response = await fetch('http://52.65.15.61:3000/admin/reports');
+                const response = await fetch('http://13.236.105.57:3000/admin/reports');
                 if (!response.ok) {
                     throw new Error('Failed to fetch reports data');
                 }
@@ -46,7 +46,7 @@ const useDeleteReport = (reportId: string) => {
     const deleteReport = async () => {
         setIsDeleting(true);
         try {
-            const response = await fetch(`http://52.65.15.61:3000/admin/deleteReport/${reportId}`, {
+            const response = await fetch(`http://13.236.105.57:3000/admin/deleteReport/${reportId}`, {
                 method: 'PUT',
             });
             if (!response.ok) {
