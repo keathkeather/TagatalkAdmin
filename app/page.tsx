@@ -21,7 +21,7 @@ const Login = () => {
 
     const handleContentEditorLogin = () => {
         // add here logic for authentication
-        router.push('/skills');
+        router.push('/skillModules');
     };
 
     return (
