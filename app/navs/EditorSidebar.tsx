@@ -12,7 +12,7 @@ const EditorSidebar: React.FC<SidebarProps> = () => {
         <ul className="space-y-4 mt-2">
           <li>
             <Link
-              href="/skills"
+              href="/skillModules"
               style={{ color: '#344054' }}
               className="flex items-center p-3 text-gray-700 dark:text-white hover:bg-[#FD9F10] dark:hover:bg-orange-400 group"
             >
