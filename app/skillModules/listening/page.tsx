@@ -40,7 +40,7 @@ const Listening = () => {
                     <div className="flex flex-col">
                        
                         <span className="font-nunito font-bold" 
-                              style={{ color: '#', fontSize: '28px', textAlign: 'center', marginTop:'30px'}}>
+                              style={{ color: '#ffffff', fontSize: '28px', textAlign: 'center', marginTop:'30px'}}>
                             Unit 1
                         </span>
 
