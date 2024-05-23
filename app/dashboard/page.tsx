@@ -1,24 +1,132 @@
 'use client'
 
 import React, { useState, useEffect } from 'react';
-import { useUserData } from '../calls/UsersFunctions';
+import { useUserData, useBannedUserData } from '../calls/UsersFunctions';
+import { useFeedbackData } from '../calls/FeedbackFunctions';
+import { useReportsData } from '../calls/ReportsFunctions';
 import Image from 'next/image';
 import Sidebar from '../navs/Sidebar';
 import Navbar from '../navs/Navbar';
 
 const Dashboard = () => {
     const [totalUsers, setTotalUsers] = useState(0);
+    const [totalBannedUsers, setTotalBannedUsers] = useState(0);
+    const [totalFeedback, setTotalFeedback] = useState(0);
+    const [totalReports, setTotalReports] = useState(0);
     const usersData = useUserData();
+    const bannedUsersData = useBannedUserData();
+    const feedbackData = useFeedbackData();
+    const reportsData = useReportsData();
 
     useEffect(() => {
         setTotalUsers(usersData.length);
-    }, [usersData]);
+        setTotalBannedUsers(bannedUsersData.length);
+        setTotalFeedback(feedbackData.length);
+        setTotalReports(reportsData.length);
+    }, [usersData, bannedUsersData, feedbackData, reportsData]);
 
     return (
         <div style={{ display: 'flex', height: '100vh', backgroundColor: '#F5F6FA' }}>
             <Sidebar />
             <Navbar />
             <div style={{ flex: 1 }}>
+                <h2 className="font-semibold text-white my-4 font-poppins" 
+                    style={{ color: '#202224', fontSize: '30px', marginTop: '100px', marginLeft: '300px' }}>
+                    Dashboard
+                </h2>
+                <div className="flex flex-col" 
+                     style={{ marginLeft: '300px', marginTop: '20px' }}>
+                    <div className="bg-white rounded-xl shadow-md p-4 flex flex-col items-center" 
+                         style={{ width: '1185px', height: '155px', marginRight: '50px', background: 'linear-gradient(to right, #FF7A00, #FD9F10)' }}>
+                        <span className="font-poppins" 
+                              style={{ color: '#F8F8FF', fontSize: '40px', fontWeight: 'bold', marginTop: '30px' }}>
+                            WELCOME BACK
+                        </span>
+                    </div>
+                    <div className="flex flex-row" 
+                         style={{ marginTop: '40px' }}>
+                        <div className="bg-white rounded-xl shadow-md p-4 flex flex-row items-center justify-between" 
+                             style={{ width: '565px', height: '135px', marginRight: '50px' }}>
+                            <div className="flex flex-col"
+                                 style={{ marginLeft: '5px' }}>
+                                <span className="font-nunito" 
+                                    style={{ color: '#545F71', fontSize: '20px', marginBottom: '15px', marginTop: '10px' }}>
+                                    Total Users
+                                </span>
+                                <span className="font-nunito font-bold" 
+                                    style={{ color: '#202224', fontSize: '35px' }}>
+                                    {totalUsers}
+                                </span>
+                            </div>
+                            <Image src="/dicon1.svg" 
+                                alt="Dashboard Icon 1" 
+                                width={60} 
+                                height={60} 
+                                style={{ marginRight: '10px', width: '15%', height: 'auto' }}/>
+                        </div>
+                        <div className="bg-white rounded-xl shadow-md p-4 flex flex-row items-center justify-between" 
+                             style={{ width: '565px', height: '135px', marginRight: '50px' }}>
+                            <div className="flex flex-col"
+                                 style={{ marginLeft: '5px' }}>
+                                <span className="font-nunito" 
+                                    style={{ color: '#545F71', fontSize: '20px', marginBottom: '15px', marginTop: '10px' }}>
+                                    Total Banned Users
+                                </span>
+                                <span className="font-nunito font-bold" 
+                                    style={{ color: '#202224', fontSize: '35px' }}>
+                                    {totalBannedUsers}
+                                </span>
+                            </div>
+                            <Image src="/dicon4.svg" 
+                                   alt="Dashboard Icon 2" 
+                                   width={60} 
+                                   height={60} 
+                                   style={{ marginRight: '10px', width: '15%', height: 'auto' }}/>
+                        </div>
+                    </div>
+                    <div className="flex flex-row" 
+                         style={{ marginTop: '20px' }}>
+                        <div className="bg-white rounded-xl shadow-md p-4 flex flex-row items-center justify-between" 
+                             style={{ width: '565px', height: '135px', marginRight: '50px' }}>
+                            <div className="flex flex-col"
+                                 style={{ marginLeft: '5px' }}>
+                                <span className="font-nunito" 
+                                    style={{ color: '#545F71', fontSize: '20px', marginBottom: '15px', marginTop: '10px' }}>
+                                    No. Feedback
+                                </span>
+                                <span className="font-nunito font-bold" 
+                                    style={{ color: '#202224', fontSize: '35px' }}>
+                                    {totalFeedback}
+                                </span>
+                            </div>
+                            <Image src="/dicon2.svg" 
+                                alt="Dashboard Icon 2" 
+                                width={60} 
+                                height={60} 
+                                style={{ marginRight: '10px', width: '15%', height: 'auto' }}/>
+                        </div>
+                        <div className="bg-white rounded-xl shadow-md p-4 flex flex-row items-center justify-between" 
+                             style={{ width: '565px', height: '135px', marginRight: '50px' }}>
+                            <div className="flex flex-col"
+                                 style={{ marginLeft: '5px' }}>
+                                <span className="font-nunito" 
+                                    style={{ color: '#545F71', fontSize: '20px', marginBottom: '15px', marginTop: '10px' }}>
+                                    No. Reports
+                                </span>
+                                <span className="font-nunito font-bold" 
+                                    style={{ color: '#202224', fontSize: '35px' }}>
+                                    {totalReports}
+                                </span>
+                            </div>
+                            <Image src="/dicon5.svg" 
+                                   alt="Dashboard Icon 5" 
+                                   width={60} 
+                                   height={60} 
+                                   style={{ marginRight: '10px', width: '15%', height: 'auto' }}/>
+                        </div>
+                    </div>
+                </div>
+                {/* ORIGINAL DASHBOARD
                 <h2 className="font-semibold text-white my-4 font-poppins" 
                     style={{ color: '#202224', fontSize: '30px', marginTop: '100px', marginLeft: '300px' }}>
                     Dashboard
@@ -119,6 +227,8 @@ const Dashboard = () => {
                         </div>
                     </div>
                 </div>
+                */}
+
             </div>
         </div>
     );

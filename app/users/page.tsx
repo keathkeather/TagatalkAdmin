@@ -349,7 +349,8 @@ const Users: React.FC = () => {
                                     </th>
                                     <th scope="col" 
                                         className="px-5 py-3 text-left">
-                                        Hours Played
+                                        {/* Hours Played */}
+                                        Created On
                                     </th>
                                     <th scope="col" 
                                         className="px-3 py-3 text-center">
@@ -379,6 +380,12 @@ const Users: React.FC = () => {
                                             <td scope="row" 
                                                 className="px-5 py-3 text-left">
                                                 {/* {user.hoursPlayed} */}
+                                                {new Date(user.createdAt).toLocaleString('en-US', { month: 'numeric', 
+                                                                                                                  day: 'numeric', 
+                                                                                                                  year: 'numeric', 
+                                                                                                                  hour: 'numeric', 
+                                                                                                                  minute: 'numeric', 
+                                                                                                                  hour12: true })}
                                             </td>
                                             <td scope="row" 
                                                 className="py-2 flex items-center justify-center">
