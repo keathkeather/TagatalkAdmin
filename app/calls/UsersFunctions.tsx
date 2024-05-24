@@ -4,6 +4,7 @@ type UserEntity = {
     userId: string;
     name: string;
     email: string;
+    createdAt: string;
 };
 
 const useUserData = () => {
