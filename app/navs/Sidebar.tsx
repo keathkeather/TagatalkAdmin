@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import { handleLogout } from '../api/auth';
 
 interface SidebarProps {}
 
@@ -63,6 +64,15 @@ const Sidebar: React.FC<SidebarProps> = () => {
               href="/"
               style={{ color: '#344054' }}
               className="flex items-center p-3 text-gray-700 dark:text-white hover:bg-[#FD9F10] dark:hover:bg-orange-400 group"
+              onClick={async (e) => {
+                  e.preventDefault();  // Prevent the default link behavior
+                  try {
+                      await handleLogout();
+                      window.location.href = '/login';
+                  } catch (error) {
+                      console.error('Logout failed', error);
+                  }
+              }}
             >
               <svg className="w-6 h-6 transition-colors duration-100 ease-in-out group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 12H8m12 0-4 4m4-4-4-4M9 4H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h2"/>
