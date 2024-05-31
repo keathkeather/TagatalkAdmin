@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useUserData } from './UsersFunctions';
+import Cookies from 'js-cookie';
 
 type FeedbackEntity = {
     id: string;
@@ -22,7 +23,15 @@ const useFeedbackData = () => {
     useEffect(() => {
         const fetchFeedbackData = async () => {
             try {
-                const response = await fetch('http://13.236.105.57:3000/admin/feedbacks');
+                const token = Cookies.get('token');
+                if (!token) throw new Error('No token found');
+
+                const response = await fetch('http://13.236.105.57:3000/admin/feedbacks', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
                 if (!response.ok) {
                     throw new Error('Failed to fetch feedback data');
                 }
@@ -46,9 +55,16 @@ const useDeleteFeedback = (feedbackId: string) => {
     const deleteFeedback = async () => {
         setIsDeleting(true);
         try {
+            const token = Cookies.get('token');
+            if (!token) throw new Error('No token found');
+
             const response = await fetch(`http://13.236.105.57:3000/admin/deleteFeedback/${feedbackId}`, {
                 method: 'PUT',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
             });
+            
             if (!response.ok) {
                 throw new Error('Failed to delete feedback');
             }

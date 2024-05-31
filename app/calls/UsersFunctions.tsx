@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import Cookies from 'js-cookie';
 
 type UserEntity = {
     userId: string;
@@ -13,7 +14,14 @@ const useUserData = () => {
     useEffect(() => {
         const fetchUsersData = async () => {
             try {
-                const response = await fetch('http://13.236.105.57:3000/admin/users');
+                const token = Cookies.get('token');
+                if (!token) throw new Error('No token found');
+
+                const response = await fetch('http://13.236.105.57:3000/admin/users', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
                 if (!response.ok) {
                 throw new Error('Failed to fetch users data');
                 }
@@ -47,7 +55,14 @@ const useBannedUserData = () => {
     useEffect(() => {
         const fetchBannedUsersData = async () => {
             try {
-                const response = await fetch('http://13.236.105.57:3000/admin/bannedUsers');
+                const token = Cookies.get('token');
+                if (!token) throw new Error('No token found');
+
+                const response = await fetch('http://13.236.105.57:3000/admin/bannedUsers', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
                 if (!response.ok) {
                 throw new Error('Failed to fetch banned users data');
                 }
@@ -71,8 +86,14 @@ const useDeleteUser = (userId: string) => {
     const deleteUser = async () => {
         setIsDeleting(true);
         try {
+            const token = Cookies.get('token');
+            if (!token) throw new Error('No token found');
+
             const response = await fetch(`http://13.236.105.57:3000/admin/deleteUser/${userId}`, {
                 method: 'PUT',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
             });
             if (!response.ok) {
                 throw new Error('Failed to delete user');
@@ -94,10 +115,14 @@ const useBanUser = (userId: string, monthsVal: number, daysVal: number) => {
     const banUser = async () => {
         setIsBanning(true);
         try {
+            const token = Cookies.get('token');
+            if (!token) throw new Error('No token found');
+
             const response = await fetch(`http://13.236.105.57:3000/admin/banUser/${userId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify({
                     month: monthsVal,
@@ -124,8 +149,14 @@ const useUnbanUser = (userId: string) => {
     const unbanUser = async () => {
         setIsUnbanning(true);
         try {
+            const token = Cookies.get('token');
+            if (!token) throw new Error('No token found');
+
             const response = await fetch(`http://13.236.105.57:3000/admin/unbanUser/${userId}`, {
                 method: 'PUT',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
             });
             if (!response.ok) {
                 throw new Error('Failed to unban user');

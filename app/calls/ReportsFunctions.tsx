@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useUserData } from './UsersFunctions';
+import Cookies from 'js-cookie';
 
 type ReportsEntity = {
     id: string;
@@ -22,7 +23,15 @@ const useReportsData = () => {
     useEffect(() => {
         const fetchReportsData = async () => {
             try {
-                const response = await fetch('http://13.236.105.57:3000/admin/reports');
+                const token = Cookies.get('token');
+                if (!token) throw new Error('No token found');
+                
+                const response = await fetch('http://13.236.105.57:3000/admin/reports', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
                 if (!response.ok) {
                     throw new Error('Failed to fetch reports data');
                 }
@@ -46,9 +55,16 @@ const useDeleteReport = (reportId: string) => {
     const deleteReport = async () => {
         setIsDeleting(true);
         try {
+            const token = Cookies.get('token');
+            if (!token) throw new Error('No token found');
+
             const response = await fetch(`http://13.236.105.57:3000/admin/deleteReport/${reportId}`, {
                 method: 'PUT',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
             });
+            
             if (!response.ok) {
                 throw new Error('Failed to delete report');
             }
