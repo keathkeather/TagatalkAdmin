@@ -51,7 +51,7 @@ const Dashboard = () => {
                                  style={{ marginLeft: '5px' }}>
                                 <span className="font-nunito" 
                                     style={{ color: '#545F71', fontSize: '20px', marginBottom: '15px', marginTop: '10px' }}>
-                                    Total Users
+                                    Total Active Users
                                 </span>
                                 <span className="font-nunito font-bold" 
                                     style={{ color: '#202224', fontSize: '35px' }}>

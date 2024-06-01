@@ -182,13 +182,15 @@ const Users: React.FC = () => {
                                         <input
                                             id="monthsInput"
                                             type="number"
+                                            min="0"
+                                            max="120"
                                             value={selectedMonths?.toString() ?? ""}
                                             onChange={(event) => {
                                                 let value = parseInt(event.target.value);
                                                 if (isNaN(value)) {
                                                     setSelectedMonths(null);
                                                 } else {
-                                                    setSelectedMonths(Math.max(0, value)); // Ensure it doesn't go below 0
+                                                    setSelectedMonths(Math.max(0, Math.min(120, value))); // Ensure the value is between 0 and 120
                                                 }
                                             }}
                                             className="border border-gray-300 rounded px-2 py-1 focus:outline-none"
@@ -204,13 +206,15 @@ const Users: React.FC = () => {
                                         <input
                                             id="daysInput"
                                             type="number"
+                                            min="0"
+                                            max="31"
                                             value={selectedDays?.toString() ?? ""}
                                             onChange={(event) => {
                                                 let value = parseInt(event.target.value);
                                                 if (isNaN(value)) {
                                                     setSelectedDays(null);
                                                 } else {
-                                                    setSelectedDays(Math.max(0, value)); // Ensure it doesn't go below 0
+                                                    setSelectedDays(Math.max(0, Math.min(31, value))); // Ensure the value is between 0 and 31
                                                 }
                                             }}
                                             className="border border-gray-300 rounded px-2 py-1 focus:outline-none"
@@ -310,7 +314,7 @@ const Users: React.FC = () => {
                         className={`px-4 py-2 focus:outline-none ${activeTab === 'allUsers' ? 'text-[#1D1929] font-bold font-poppins border-b-2 border-[#1D1929]' : 'text-[#1D1929]'}`}
                         onClick={() => handleTabChange('allUsers')}
                     >
-                        All Users
+                        Active Users
                     </button>
                     <button
                         style={{ width: '150px' }}
@@ -349,7 +353,6 @@ const Users: React.FC = () => {
                                     </th>
                                     <th scope="col" 
                                         className="px-5 py-3 text-left">
-                                        {/* Hours Played */}
                                         Created On
                                     </th>
                                     <th scope="col" 
@@ -379,7 +382,6 @@ const Users: React.FC = () => {
                                             </td>
                                             <td scope="row" 
                                                 className="px-5 py-3 text-left">
-                                                {/* {user.hoursPlayed} */}
                                                 {new Date(user.createdAt).toLocaleString('en-US', { month: 'numeric', 
                                                                                                                   day: 'numeric', 
                                                                                                                   year: 'numeric', 
