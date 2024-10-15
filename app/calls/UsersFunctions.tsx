@@ -17,7 +17,7 @@ const useUserData = () => {
                 const token = Cookies.get('token');
                 if (!token) throw new Error('No token found');
 
-                const response = await fetch('http://13.236.105.57:3000/admin/users', {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API}/v1/admin/users`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }

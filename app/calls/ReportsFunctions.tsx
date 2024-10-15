@@ -26,7 +26,7 @@ const useReportsData = () => {
                 const token = Cookies.get('token');
                 if (!token) throw new Error('No token found');
                 
-                const response = await fetch('http://13.236.105.57:3000/admin/reports', {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API}:3000/admin/reports`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }

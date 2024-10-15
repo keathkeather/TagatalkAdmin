@@ -4,7 +4,7 @@ export const  verifyToken = async(token:string)=>{
 
     try{
         console.log(token)
-        const  Response = await fetch('http://13.236.105.57:3000/auth/admin/verifyToken', {
+        const  Response = await fetch(`${process.env.NEXT_PUBLIC_API}/v1/auth/admin/verifyToken`, {
             method:'POST',
             headers:{
                 'Authorization':`Bearer ${token}`
@@ -25,7 +25,7 @@ export const  verifyToken = async(token:string)=>{
 export const handleLogin = async(email:string,password:string,)=>{
     
     try{
-        const Response = await fetch('http://13.236.105.57:3000/auth/admin/login',{
+        const Response = await fetch(`${process.env.NEXT_PUBLIC_API}/v1/auth/admin/login`,{
             method:'POST',
             headers:{
                 'Content-Type':'application/json'
@@ -43,7 +43,8 @@ export const handleLogin = async(email:string,password:string,)=>{
         if(!Response.ok){
             throw new Error('Failed to login')
         }
-        const token = await Response.text();
+        const data = await Response.json();
+        const token = data.token
         Cookies.set('token', token, { expires: 1 });
 
     }    

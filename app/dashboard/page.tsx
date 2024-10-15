@@ -14,7 +14,7 @@ const Dashboard = () => {
     const [totalFeedback, setTotalFeedback] = useState(0);
     const [totalReports, setTotalReports] = useState(0);
     const usersData = useUserData();
-    const bannedUsersData = useBannedUserData();
+    const bannedUsersData = useBannedUserData();    
     const feedbackData = useFeedbackData();
     const reportsData = useReportsData();
 

@@ -9,7 +9,7 @@ type FeedbackEntity = {
     feedbackDescription: string;
     createdAt: string;
     user: user;
-};
+};``
 
 type user = {
     name: string;
@@ -25,8 +25,8 @@ const useFeedbackData = () => {
             try {
                 const token = Cookies.get('token');
                 if (!token) throw new Error('No token found');
-
-                const response = await fetch('http://13.236.105.57:3000/admin/feedbacks', {
+                
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API}/v1/admin/feedbacks`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -58,7 +58,7 @@ const useDeleteFeedback = (feedbackId: string) => {
             const token = Cookies.get('token');
             if (!token) throw new Error('No token found');
 
-            const response = await fetch(`http://13.236.105.57:3000/admin/deleteFeedback/${feedbackId}`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API}/admin/deleteFeedback/${feedbackId}`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': `Bearer ${token}`
