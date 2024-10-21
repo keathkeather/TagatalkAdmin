@@ -6,7 +6,7 @@ import Sidebar from '../navs/Sidebar';
 import Navbar from '../navs/Navbar';
 
 const Reports = () => {
-    const allReportsItemsPerPage = 6;
+    const allReportsItemsPerPage = 7;
     const [allReportsCurrentPage, setReportsCurrentPage] = useState(1);
     const [isVieModalVisible, setVieModalVisible] = useState(false);
     const [isDelModalVisible, setDelModalVisible] = useState(false);
@@ -80,7 +80,7 @@ const Reports = () => {
             </style>
 
             <Sidebar />
-            <Navbar />
+            <Navbar pageTitle="Reports" />
 
             <div
                 id="r-modal"
@@ -187,15 +187,8 @@ const Reports = () => {
             </div>
 
             <div style={{ flex: 1 }}>
-                <h2 className="font-semibold text-white my-4 font-poppins" 
-                    style={{ color: '#202224', 
-                             fontSize: '30px', 
-                             marginTop: '100px', 
-                             marginLeft: '300px' }}>
-                    Reports
-                </h2>
                 <div style={{ marginLeft: '300px', 
-                              marginTop: '20px' }} 
+                              marginTop: '130px' }} 
                      className="p-0 pb-0 pt-4">
                     {/* Reports Table */}
                     <table style={{ width: '1180px' }}>
