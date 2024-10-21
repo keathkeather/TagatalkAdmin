@@ -17,7 +17,7 @@ const useUserData = () => {
                 const token = Cookies.get('token');
                 if (!token) throw new Error('No token found');
 
-                const response = await fetch(`${process.env.NEXT_PUBLIC_API}/v1/admin/users`, {
+                const response = await fetch(`http://${process.env.NEXT_PUBLIC_LOCAL_IP}:3000/v1/admin/users`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -58,7 +58,7 @@ const useBannedUserData = () => {
                 const token = Cookies.get('token');
                 if (!token) throw new Error('No token found');
 
-                const response = await fetch('http://13.236.105.57:3000/admin/bannedUsers', {
+                const response = await fetch(`http://${process.env.NEXT_PUBLIC_LOCAL_IP}:3000/v1/admin/bannedUsers`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -89,7 +89,7 @@ const useDeleteUser = (userId: string) => {
             const token = Cookies.get('token');
             if (!token) throw new Error('No token found');
 
-            const response = await fetch(`http://13.236.105.57:3000/admin/deleteUser/${userId}`, {
+            const response = await fetch(`http://${process.env.NEXT_PUBLIC_LOCAL_IP}:3000/v1/admin/deleteUser/${userId}`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -118,7 +118,7 @@ const useBanUser = (userId: string, monthsVal: number, daysVal: number) => {
             const token = Cookies.get('token');
             if (!token) throw new Error('No token found');
 
-            const response = await fetch(`http://13.236.105.57:3000/admin/banUser/${userId}`, {
+            const response = await fetch(`http://${process.env.NEXT_PUBLIC_LOCAL_IP}:3000/v1/admin/banUser/${userId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -152,7 +152,7 @@ const useUnbanUser = (userId: string) => {
             const token = Cookies.get('token');
             if (!token) throw new Error('No token found');
 
-            const response = await fetch(`http://13.236.105.57:3000/admin/unbanUser/${userId}`, {
+            const response = await fetch(`http://${process.env.NEXT_PUBLIC_LOCAL_IP}:3000/v1/admin/unbanUser/${userId}`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': `Bearer ${token}`

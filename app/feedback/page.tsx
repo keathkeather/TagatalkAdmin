@@ -6,7 +6,7 @@ import Sidebar from '../navs/Sidebar';
 import Navbar from '../navs/Navbar';
 
 const Feedback = () => {
-    const allFeedbackItemsPerPage = 6;
+    const allFeedbackItemsPerPage = 7;
     const [allFeedbackCurrentPage, setFeedbackCurrentPage] = useState(1);
     const [isVieModalVisible, setVieModalVisible] = useState(false);
     const [isDelModalVisible, setDelModalVisible] = useState(false);
@@ -80,7 +80,7 @@ const Feedback = () => {
             </style>
 
             <Sidebar />
-            <Navbar />
+            <Navbar pageTitle="Feedback" />
 
             <div
                 id="f-modal"
@@ -187,15 +187,8 @@ const Feedback = () => {
             </div>
 
             <div style={{ flex: 1 }}>
-                <h2 className="font-semibold text-white my-4 font-poppins" 
-                    style={{ color: '#202224', 
-                             fontSize: '30px', 
-                             marginTop: '100px', 
-                             marginLeft: '300px' }}>
-                    Feedback
-                </h2>
                 <div style={{ marginLeft: '300px', 
-                              marginTop: '20px' }} 
+                              marginTop: '130px' }} 
                      className="p-0 pb-0 pt-4">
                     {/* Feedback Table */}
                     <table style={{ width: '1180px' }}>

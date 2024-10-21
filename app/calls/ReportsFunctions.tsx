@@ -26,7 +26,7 @@ const useReportsData = () => {
                 const token = Cookies.get('token');
                 if (!token) throw new Error('No token found');
                 
-                const response = await fetch(`${process.env.NEXT_PUBLIC_API}:3000/admin/reports`, {
+                const response = await fetch(`http://${process.env.NEXT_PUBLIC_LOCAL_IP}:3000/v1/admin/reports`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -58,7 +58,7 @@ const useDeleteReport = (reportId: string) => {
             const token = Cookies.get('token');
             if (!token) throw new Error('No token found');
 
-            const response = await fetch(`http://13.236.105.57:3000/admin/deleteReport/${reportId}`, {
+            const response = await fetch(`http://${process.env.NEXT_PUBLIC_LOCAL_IP}:3000/v1/admin/deleteReport/${reportId}`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': `Bearer ${token}`

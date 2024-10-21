@@ -26,7 +26,7 @@ const useFeedbackData = () => {
                 const token = Cookies.get('token');
                 if (!token) throw new Error('No token found');
                 
-                const response = await fetch(`${process.env.NEXT_PUBLIC_API}/v1/admin/feedbacks`, {
+                const response = await fetch(`http://${process.env.NEXT_PUBLIC_LOCAL_IP}:3000/v1/admin/feedbacks`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -58,7 +58,7 @@ const useDeleteFeedback = (feedbackId: string) => {
             const token = Cookies.get('token');
             if (!token) throw new Error('No token found');
 
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API}/admin/deleteFeedback/${feedbackId}`, {
+            const response = await fetch(`http://${process.env.NEXT_PUBLIC_LOCAL_IP}:3000/v1/admin/deleteFeedback/${feedbackId}`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': `Bearer ${token}`
