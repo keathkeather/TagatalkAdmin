@@ -88,8 +88,8 @@ const Dashboard = () => {
                 data: hours.map(hour => {
                     // Find the entry for the current 4-hour interval in dailyLoginSummary
                     const entry = dailyLoginSummary.find(entry => {
-                        const date = new Date(entry.periodStart);
-                        return date.getUTCHours() === hour; // Check for the 4-hour interval
+                        const date = new Date(entry.periodStart); // Parse the UTC time
+                        return date.getUTCHours() === hour; // Compare in UTC to get the correct hour interval
                     });
                     return entry ? entry.loginCount : 0; // Return the login count or 0 if not found
                 }),
@@ -178,22 +178,22 @@ const Dashboard = () => {
     // Array of days of the week (Sunday to Saturday)
     const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-    // Assuming weeklyLoginSummary contains entries for each day, with `periodStart` formatted as 'YYYY-MM-DD'
+    // Assuming weeklyLoginSummary contains entries for each day, with `periodStart` in UTC
     const barData = {
         labels: daysOfWeek,
         datasets: [
             {
                 label: 'User Logins',
                 data: daysOfWeek.map((day, index) => {
-                    // Get the current date and the current day of the week
-                    const date = new Date();
-                    const currentDay = date.getDay(); // Current day (0 = Sun, 1 = Mon, ..., 6 = Sat)
+                    // Get the target day of the week based on UTC time
+                    const today = new Date();
+                    const currentDayUTC = today.getUTCDay(); // Current UTC day (0 = Sun, 1 = Mon, ..., 6 = Sat)
 
-                    // Calculate the target date for the day of the week we want, moving one day back
-                    const targetDate = new Date();
-                    targetDate.setDate(date.getDate() - (currentDay - index - 1)); // Adjust to get the correct day
+                    // Calculate the correct date for the given day of the week in UTC
+                    const targetDate = new Date(today);
+                    targetDate.setUTCDate(today.getUTCDate() - (currentDayUTC - index));
 
-                    // Format the target date to 'YYYY-MM-DD' to match weeklyLoginSummary format
+                    // Format the target date to 'YYYY-MM-DD' in UTC to match weeklyLoginSummary
                     const formattedDate = targetDate.toISOString().split('T')[0]; // 'YYYY-MM-DD'
 
                     // Find the entry for the formatted date in weeklyLoginSummary
