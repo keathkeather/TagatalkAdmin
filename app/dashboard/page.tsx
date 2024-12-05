@@ -58,11 +58,20 @@ const Dashboard = () => {
         setTotalBannedUsers(bannedUsersData.length);
         setTotalFeedback(feedbackData.length);
         setTotalReports(reportsData.length);
+        /*
         if (progressSummary.length > 0) {
             const totalProgress = progressSummary.reduce((total, entry) => total + entry.progressCount, 0);
             setTotalCompletedLessons(totalProgress);
+        }*/
+        if (skillProgress) {
+            // Calculate total completed lessons
+            const totalCompleted = Object.values(skillProgress)
+                .map(skill => skill.progressCount) // Extract progressCount
+                .reduce((acc, curr) => acc + curr, 0); // Sum all progress counts
+    
+            setTotalCompletedLessons(totalCompleted); // Update the state
         }
-    }, [usersData, bannedUsersData, feedbackData, reportsData, progressSummary]);
+    }, [usersData, bannedUsersData, feedbackData, reportsData, progressSummary, skillProgress]);
 
     // Get today's date in YYYY-MM-DD format
     const today = new Date().toISOString().slice(0, 10); // Format YYYY-MM-DD
@@ -75,8 +84,7 @@ const Dashboard = () => {
     ];
     const todayText = `${monthNames[parseInt(month) - 1]} ${parseInt(day) + 1}, ${year}`; // Format to "Month Day, Year"
 
-    // Line chart data for the current day, displaying every 4-hour login trends
-    const hours = Array.from({ length: 6 }, (_, i) => i * 4); // Creates an array [0, 4, 8, 12, 16, 20]
+    const hours = Array.from({ length: 7 }, (_, i) => i * 4); // Creates an array [0, 4, 8, 12, 16, 20, 24]
 
     const lineData = {
         labels: hours.map(hour => {
@@ -85,14 +93,16 @@ const Dashboard = () => {
         datasets: [
             {
                 label: 'User Logins',
-                data: hours.map(hour => {
-                    // Find the entry for the current 4-hour interval in dailyLoginSummary
-                    const entry = dailyLoginSummary.find(entry => {
-                        const date = new Date(entry.periodStart); // Parse the UTC time
-                        return date.getUTCHours() === hour; // Compare in UTC to get the correct hour interval
-                    });
-                    return entry ? entry.loginCount : 0; // Return the login count or 0 if not found
-                }),
+                data: dailyLoginSummary && dailyLoginSummary.length > 0
+                    ? hours.map(hour => {
+                        // Find the entry for the current 4-hour interval in dailyLoginSummary
+                        const entry = dailyLoginSummary.find(entry => {
+                            const date = new Date(entry.periodStart); // Parse the UTC time
+                            return date.getUTCHours() === hour; // Compare in UTC to get the correct hour interval
+                        });
+                        return entry ? entry.loginCount : 0; // Return the login count or 0 if not found
+                    })
+                    : [0, 0, 20, 30, 0, 0, 0], // Dummy data to display if dailyLoginSummary is unavailable
                 borderColor: '#2D9CDB',
                 backgroundColor: '#d1f1ff',
                 fill: true,
@@ -178,38 +188,39 @@ const Dashboard = () => {
     // Array of days of the week (Sunday to Saturday)
     const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-    // Assuming weeklyLoginSummary contains entries for each day, with `periodStart` in UTC
     const barData = {
         labels: daysOfWeek,
         datasets: [
             {
                 label: 'User Logins',
-                data: daysOfWeek.map((day, index) => {
-                    // Get the target day of the week based on UTC time
-                    const today = new Date();
-                    const currentDayUTC = today.getUTCDay(); // Current UTC day (0 = Sun, 1 = Mon, ..., 6 = Sat)
-
-                    // Calculate the correct date for the given day of the week in UTC
-                    const targetDate = new Date(today);
-                    targetDate.setUTCDate(today.getUTCDate() - (currentDayUTC - index));
-
-                    // Format the target date to 'YYYY-MM-DD' in UTC to match weeklyLoginSummary
-                    const formattedDate = targetDate.toISOString().split('T')[0]; // 'YYYY-MM-DD'
-
-                    // Find the entry for the formatted date in weeklyLoginSummary
-                    const entry = weeklyLoginSummary.find(entry => {
-                        return entry.periodStart.split('T')[0] === formattedDate; // Compare only the date part
-                    });
-
-                    // Return the login count or 0 if no entry is found for that day
-                    return entry ? entry.loginCount : 0;
-                }),
+                data: weeklyLoginSummary && weeklyLoginSummary.length > 0
+                    ? daysOfWeek.map((day, index) => {
+                        // Get the target day of the week based on UTC time
+                        const today = new Date();
+                        const currentDayUTC = today.getUTCDay(); // Current UTC day (0 = Sun, 1 = Mon, ..., 6 = Sat)
+    
+                        // Calculate the correct date for the given day of the week in UTC
+                        const targetDate = new Date(today);
+                        targetDate.setUTCDate(today.getUTCDate() - (currentDayUTC - index));
+    
+                        // Format the target date to 'YYYY-MM-DD' in UTC to match weeklyLoginSummary
+                        const formattedDate = targetDate.toISOString().split('T')[0]; // 'YYYY-MM-DD'
+    
+                        // Find the entry for the formatted date in weeklyLoginSummary
+                        const entry = weeklyLoginSummary.find(entry => {
+                            return entry.periodStart.split('T')[0] === formattedDate; // Compare only the date part
+                        });
+    
+                        // Return the login count or 0 if no entry is found for that day
+                        return entry ? entry.loginCount : 0;
+                    })
+                    : [5, 15, 20, 40, 50, 0, 0], // Dummy data for each day of the week
                 backgroundColor: '#FD9F10',
                 borderRadius: 20,
                 borderWidth: 0,
             },
         ],
-    };
+    };    
 
     const barOptions = {
         responsive: true,

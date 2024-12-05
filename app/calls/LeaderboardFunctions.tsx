@@ -17,7 +17,7 @@ const useLeaderboardData = () => {
                 const token = Cookies.get('token');
                 if (!token) throw new Error('No token found');
 
-                const response = await fetch(`http://${process.env.NEXT_PUBLIC_LOCAL_IP}:3000/v1/user/getLeaderBoard`, {
+                const response = await fetch(`http://${process.env.NEXT_PUBLIC_LOCAL_IP}/v1/user/getLeaderBoard`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }

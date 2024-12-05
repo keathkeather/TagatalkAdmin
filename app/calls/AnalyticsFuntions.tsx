@@ -27,7 +27,7 @@ const useLoginSummaryData = (period: 'DAY' | 'WEEK' | 'MONTH') => {
                 const token = Cookies.get('token');
                 if (!token) throw new Error('No token found');
 
-                const response = await fetch(`http://${process.env.NEXT_PUBLIC_LOCAL_IP}:3000/v1/admin/fetchLoginSummary/${period}`, {
+                const response = await fetch(`http://${process.env.NEXT_PUBLIC_LOCAL_IP}/v1/admin/fetchLoginSummary/${period}`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -60,7 +60,7 @@ const useProgressSummaryData = () => {
                 const token = Cookies.get('token');
                 if (!token) throw new Error('No token found');
 
-                const response = await fetch(`http://${process.env.NEXT_PUBLIC_LOCAL_IP}:3000/v1/admin/getProgressSumary`, {
+                const response = await fetch(`http://${process.env.NEXT_PUBLIC_LOCAL_IP}/v1/admin/getProgressSumary`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -93,7 +93,7 @@ const useSkillProgressData = () => {
                 const token = Cookies.get('token');
                 if (!token) throw new Error('No token found');
 
-                const response = await fetch(`http://${process.env.NEXT_PUBLIC_LOCAL_IP}:3000/v1/admin/getWeeklyProgressCountPerSkill`, {
+                const response = await fetch(`http://${process.env.NEXT_PUBLIC_LOCAL_IP}/v1/admin/getWeeklyProgressCountPerSkill`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
