@@ -5,18 +5,18 @@ import { useUserData, useBannedUserData, useDeleteUser, useBanUser, useUnbanUser
 import Sidebar from '../navs/Sidebar';
 import Navbar from '../navs/Navbar';
 
-type Tab = 'allUsers' | 'bannedUsers'; 
+type Tab = 'activeUsers' | 'bannedUsers'; 
 
 const Users: React.FC = () => {
-    const [activeTab, setActiveTab] = useState<'allUsers' | 'bannedUsers'>('allUsers');
-    const allUsersItemsPerPage = 5;
-    const bannedUsersItemsPerPage = 5;
-    const [allUsersCurrentPage, setAllUsersCurrentPage] = useState(1);
+    const [activeTab, setActiveTab] = useState<'activeUsers' | 'bannedUsers'>('activeUsers');
+    const activeUsersItemsPerPage = 6;
+    const bannedUsersItemsPerPage = 6;
+    const [activeUsersCurrentPage, setActiveUsersCurrentPage] = useState(1);
     const [bannedUsersCurrentPage, setBannedUsersCurrentPage] = useState(1);
     const [isBanModalVisible, setBanModalVisible] = useState(false);
     const [isUnbModalVisible, setUnbModalVisible] = useState(false);
     const [isDelModalVisible, setDelModalVisible] = useState(false);
-    const allUsersModalVisible = isBanModalVisible || isDelModalVisible || isUnbModalVisible;
+    const activeUsersModalVisible = isBanModalVisible || isDelModalVisible || isUnbModalVisible;
     const users = useUserData();
     const bannedUsers = useBannedUserData();
     const [selectedDelUserId, setSelectedDelUserId] = useState<string>("");
@@ -47,9 +47,9 @@ const Users: React.FC = () => {
         setUnbModalVisible(!isUnbModalVisible);
     };
     
-    const getAllUsersForCurrentPage = () => {
-        const startIndex1 = (allUsersCurrentPage - 1) * allUsersItemsPerPage;
-        const endIndex1 = startIndex1 + allUsersItemsPerPage;
+    const getActiveUsersForCurrentPage = () => {
+        const startIndex1 = (activeUsersCurrentPage - 1) * activeUsersItemsPerPage;
+        const endIndex1 = startIndex1 + activeUsersItemsPerPage;
         return users.slice(startIndex1, endIndex1);
     };
 
@@ -94,7 +94,7 @@ const Users: React.FC = () => {
     return (
         <div style={{ display: 'flex', height: '100vh', backgroundColor: '#F5F6FA' }}>
 
-            {allUsersModalVisible && (
+            {activeUsersModalVisible && (
                 <div className="u-overlay"></div>
             )}
 
@@ -124,7 +124,7 @@ const Users: React.FC = () => {
             </style>
 
             <Sidebar />
-            <Navbar />
+            <Navbar pageTitle="Users" />
 
             <div
                 id="u-modal"
@@ -297,22 +297,15 @@ const Users: React.FC = () => {
             </div>
 
             <div style={{ flex: 1 }}>
-                <h2 className="font-semibold font-poppins text-white my-4" 
-                    style={{ color: '#202224', 
-                             fontSize: '30px', 
-                             marginTop: '100px',
-                             marginLeft: '300px' }}>
-                    Users
-                </h2>
                 {/* Toggle for All Users and Banned Users */}
                 <div className="flex flex-row items-center" 
                      style={{ fontSize: '14px', 
-                              marginTop: '20px', 
+                              marginTop: '130px', 
                               marginLeft: '300px' }}>
                     <button
                         style={{ width: '150px' }}
-                        className={`px-4 py-2 focus:outline-none ${activeTab === 'allUsers' ? 'text-[#1D1929] font-bold font-poppins border-b-2 border-[#1D1929]' : 'text-[#1D1929]'}`}
-                        onClick={() => handleTabChange('allUsers')}
+                        className={`px-4 py-2 focus:outline-none ${activeTab === 'activeUsers' ? 'text-[#1D1929] font-bold font-poppins border-b-2 border-[#1D1929]' : 'text-[#1D1929]'}`}
+                        onClick={() => handleTabChange('activeUsers')}
                     >
                         Active Users
                     </button>
@@ -325,7 +318,7 @@ const Users: React.FC = () => {
                     </button>
                 </div>
                 {/* Render Selected Table */}
-                {activeTab === 'allUsers' && (
+                {activeTab === 'activeUsers' && (
                     <div style={{ marginLeft: '300px', 
                                   marginTop: '20px' }} 
                         className="p-0 pb-0 pt-4">
@@ -362,10 +355,10 @@ const Users: React.FC = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {getAllUsersForCurrentPage().map((user, index) => (
+                                {getActiveUsersForCurrentPage().map((user, index) => (
                                     <React.Fragment key={user.userId}>
                                         {/* Empty row for spacing */}
-                                        {index !== getAllUsersForCurrentPage().length && (
+                                        {index !== getActiveUsersForCurrentPage().length && (
                                             <tr style={{ height: '10px' }}></tr>
                                         )}
                                         <tr style={{ color: '#344054', 
@@ -411,15 +404,15 @@ const Users: React.FC = () => {
                                 ))}
                             </tbody>
                         </table>
-                        {/* Pagination for All Users */}
+                        {/* Pagination for Active Users */}
                         <div className="mt-2 p-2 rounded-lg">
-                            {Array.from({ length: Math.ceil(users.length / allUsersItemsPerPage) }, (_, index) => (
+                            {Array.from({ length: Math.ceil(users.length / activeUsersItemsPerPage) }, (_, index) => (
                                 <button
                                     key={index + 1}
                                     className={`mx-1 px-3 py-2 text-xs font-bold rounded-full ${
-                                        allUsersCurrentPage === index + 1 ? 'bg-[#344054] text-white' : 'bg-[#E6E6E6] text-[#4C4C4C] hover:bg-[#344054] hover:text-white'
+                                        activeUsersCurrentPage === index + 1 ? 'bg-[#344054] text-white' : 'bg-[#E6E6E6] text-[#4C4C4C] hover:bg-[#344054] hover:text-white'
                                     }`}
-                                    onClick={() => setAllUsersCurrentPage(index + 1)}>
+                                    onClick={() => setActiveUsersCurrentPage(index + 1)}>
                                     {index + 1}
                                 </button>
                             ))}

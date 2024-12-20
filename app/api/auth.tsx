@@ -4,7 +4,7 @@ export const  verifyToken = async(token:string)=>{
 
     try{
         console.log(token)
-        const  Response = await fetch(`${process.env.NEXT_PUBLIC_API}/v1/auth/admin/verifyToken`, {
+        const  Response = await fetch(`http://${process.env.NEXT_PUBLIC_LOCAL_IP}/v1/auth/admin/verifyToken`, {
             method:'POST',
             headers:{
                 'Authorization':`Bearer ${token}`
@@ -25,7 +25,7 @@ export const  verifyToken = async(token:string)=>{
 export const handleLogin = async(email:string,password:string,)=>{
     
     try{
-        const Response = await fetch(`${process.env.NEXT_PUBLIC_API}/v1/auth/admin/login`,{
+        const Response = await fetch(`http://${process.env.NEXT_PUBLIC_LOCAL_IP}/v1/auth/admin/login`,{
             method:'POST',
             headers:{
                 'Content-Type':'application/json'
